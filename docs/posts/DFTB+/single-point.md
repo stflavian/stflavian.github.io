@@ -239,7 +239,123 @@ reason it is not higher on the list is because the information in **detailed.out
 only cover the properties of the last system analyzed, so it does not track the
 changes in electronic structure between different SCC cycles or geometries. 
 
-Since the file 
+Since the file dumps a lot of information on you, it is important to know what you 
+can find in there. The file starts off with some information about the electronic 
+filling method used and the current geometry step, and then provides information
+about the current state:
+
+```
+********************************************************************************
+ iSCC Total electronic   Diff electronic      SCC error
+    9   -0.56656703E+01    0.60625955E-07    0.28145263E-05
+********************************************************************************
+```
+
+The text above mentions that on the 9th cycle of the self convergent charge (SCC)
+procedure the total electronic energy was -5.67 Ha, which was only 6E-8 Ha different
+compared to the 8th cycle. However, DFTB calculations do not use traditional
+self convergent field (SCF) methods, and as such the energy difference is not 
+important during the calculation. The important metric is the SCC error, which
+tells you the difference in partial charges between the two cycles. Unconverged 
+charges will result in poor results, so this tolerance has to be determined carefully.
+
+The file then continues with information about the total charge inside the system,
+and the atomic partial charges, which are based on Mulliken analysis. The Mulliken 
+analysis is enabled by default for all calculations, but can be manually turned off
+if it is not required.
+
+```
+Total charge:    -0.00000000      
+
+Atomic gross charges (e)
+Atom           Charge
+   1      -0.59242485
+   2       0.29621242
+   3       0.29621242
+```
+
+The Mulliken analysis section continues with more in-depth information about the
+electronic occupation, providing 3 levels of details. The first level describes
+the number of electrons in the system and the electronic occupation per atom. A
+quick look at the number of electrons may already raise question marks: why are there
+only 8 electrons in the system when in actuality there should be 10? In the case at
+hand, GFN1-xTB uses a reduced basis set where core electrons are ignored. This means
+that oxygen only has the shells 2s and 2p, losing two electrons in the process. As
+such, you can think that on atom 1 the population is actually 8.59, not 6.59, thus
+increasing the total number of electrons to 10.
+
+```
+Nr. of electrons (up):      8.00000000
+Atom populations (up)
+ Atom       Population
+    1       6.59242485
+    2       0.70378758
+    3       0.70378758
+```
+
+The second level describes the occupation per l-shell, which gives two entries per
+atom (oxygen has 2s and 2p, hydrogen has 1s and 2s). The third level provides
+the population per orbital, which cannot exceed 2.0 due to Pauli's exclusion
+principle.
+
+```                                                                                      
+l-shell populations (up)
+ Atom Sh.   l       Population
+    1   1   0       1.84212929
+    1   2   1       4.75029555
+    2   1   0       0.66937366
+    2   2   0       0.03441392
+    3   1   0       0.66937366
+    3   2   0       0.03441392
+
+Orbital populations (up)
+ Atom Sh.   l   m       Population  Label
+    1   1   0   0       1.84212929  s
+    1   2   1  -1       1.32398491  p_y
+    1   2   1   0       1.42631065  p_z
+    1   2   1   1       2.00000000  p_x
+    2   1   0   0       0.66937366  s
+    2   2   0   0       0.03441392  s2
+    3   1   0   0       0.66937366  s
+    3   2   0   0       0.03441392  s2
+```
+
+Followed by the Mulliken analysis, the file contains information about the energy
+inside the system, such as the Fermi level, thermal smearing, total energy, and so
+on. In general, the Mermin free energy is recommended as a reliable metric for the
+energy inside the system, as it also accounts for electronic temperature.
+
+```
+Fermi level:                        -0.3653155827 H           -9.9407 eV
+Band energy:                        -4.6740022127 H         -127.1861 eV
+TS:                                  0.0000000000 H            0.0000 eV
+Band free energy (E-TS):            -4.6740022127 H         -127.1861 eV
+Extrapolated E(0K):                 -4.6740022127 H         -127.1861 eV
+Input / Output electrons (q):      8.0000000000      8.0000000000 
+
+Energy H0:                          -5.7249282333 H         -155.7832 eV
+Energy SCC:                          0.0592579110 H            1.6125 eV
+Total Electronic energy:            -5.6656703223 H         -154.1707 eV
+Repulsive energy:                    0.0000000000 H            0.0000 eV
+Total energy:                       -5.6656703223 H         -154.1707 eV
+Extrapolated to 0:                  -5.6656703223 H         -154.1707 eV
+Total Mermin free energy:           -5.6656703223 H         -154.1707 eV
+Force related energy:               -5.6656703223 H         -154.1707 eV
+```
+
+The file closes off with information about the dipole moment of the system, which
+in the case at hand differs from the experimentally determined 1.85 Debye. However,
+this is most likely due to the settings used for the simulation and the
+non-optimized geometry used, and will be improved in further tutorials.
+
+```
+Dipole moment:   -0.00000000    1.52590939   -0.00000000 au
+Dipole moment:   -0.00000000    3.87847511   -0.00000000 Debye
+```
+
+Enabling more options in the `Analysis` block can extend this file to contain CM5
+charges, forces, stress, and much more. Nevertheless, you are now aware of the
+default content that can be found here.
 
 ### dftb.out
 
@@ -260,8 +376,11 @@ The final file that was created (actually first chronologically) is the
 **dftb_pin.hsd** file. It is a detailed copy of out **dftb_in.hsd** file, with
 the only difference being that the default settings are explicitly mentioned. This
 has no value from a results point of view, but it provides a great way to check
-which are all possible settings for a 
+which are all possible settings. It is especially useful since the DFTB+ manual
+does not explicitly mention some settings for extended tight-binding calculations.
 
+That is it for now! Later, we will look into what settings should be changed to
+obtain accurate results.
 
 
 
