@@ -1,6 +1,6 @@
 ---
-draft: true 
-date: 2025-10-17 
+draft: false
+date: 2025-10-21 
 categories:
   - DFTB+
 ---
@@ -155,7 +155,7 @@ unchanged.
 ## Self-convergent charges (SCC)
 
 The most important block in the `Hemiltonian` block is the SCC part, which directly
-impacts the performance and accuracy of the calculations. These settings impact
+impacts the performance and accuracy of the calculations.
 
 ```
 SCC = Yes
@@ -173,7 +173,40 @@ Mixer = Broyden {
 }
 ```
 
-The SCC section is probably the most important
+The first tag, `SCC`, enables the self-convergent charge procedure during the
+calculations. Without it, the calculation would use the charge distribution of neutral
+atoms, which for most systems are not representative. This setting is enabled by 
+default and should only be disabled if you know the neutral atoms provide a decent
+description. If enabled, the SCC procedure has two stop conditions:
+
+- When the change in charges from cycle to cycle is less than the `SCCTolerance`;
+- When `MaxSCCIterations` cycles have been performed.
+
+Next, the tag `ShellResolvedSCC` determines if all distinct Hubbard U values for the 
+different atomic angular momenta shells are used. However, this does not seem to
+have an impact on xTB calculations. The tag `ConvergentSCCOnly` indicates that forces 
+and other properties are only computed after the SCC procedure converges, not after
+each cycle.
+
+The last two tags in this section, `Solver` and `Mixer`, affect the charge calculation
+procedure. `Solver` represents the eigensolver used by DFTB+, which is set to
+`RelativelyRobust` by default. Alternatives to this are `DivideAndConqer` (which 
+requires twice the memory of the other solvers) and `QR` (which is based on QR 
+decomposition). Depending on how the code is compiled, more solvers can be available,
+such as `MAGAM` (GPU solver), `ELPA` (efficient and GPU), `OMM`, `PEXSI`, or `NTPoly`.
+These have to be added manually at compile-time and have their own advantages and 
+disadvantages, which should be assessed before usage. 
+
+On the other hand, `Mixer` determines that way past solutions from the SCC procedure
+are "mixed" to create a new solution. You may be tempted to think that during the 
+self-convergence procedure, the charges (or electron density for SCF) computed for
+one cycle are reused as the starting point of the next cycle. While this can be 
+accomplished by using the `Simple` mixer and setting the `MixingParameter` to 1.0, 
+most quantum calculation software use complex methods to determine the best starting
+point for the next cycle. Both DFTB+ and VASP use `Broyden` mixing by default.
+Alternatives to this, which require less memory, are `Anderson` and `DIIS`. I never
+used them myself, but it can be a good idea to try them as well to see if it improves
+convergence and performance.
 
 ## Electron filling and smearing
 
