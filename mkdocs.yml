@@ -4,12 +4,20 @@ theme:
   name: material
   features:
     - content.code.copy
-    - content.code.annotate 
+    - content.code.annotate
+    - navigation.tabs
 
 plugins:
   - blog:
-      blog_dir: .
+      blog_dir: blog
   - search
+
+nav:
+  - Tutorials:
+    - DFTB+:
+      - Single-point calculations using xTB: dftbp/single-point.md
+      - Understanding the xTB Hamiltonian: dftbp/xtb-hamiltonian.md
+  - Blog: blog/index.md
 
 markdown_extensions:
   - pymdownx.highlight:
