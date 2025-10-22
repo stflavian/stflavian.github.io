@@ -1,0 +1,1147 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../single-point/">
+      
+      
+        <link rel="next" href="../geometry-optimization/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>Understanding the xTB Hamiltonian - My Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-the-extended-tight-binding-hamiltonian" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="My Docs" class="md-header__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Understanding the xTB Hamiltonian
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../single-point/" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../blog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Blog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="My Docs" class="md-nav__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    My Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tutorials
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DFTB+
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            DFTB+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../single-point/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Single-point calculations using xTB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Understanding the xTB Hamiltonian
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Understanding the xTB Hamiltonian
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#extended-tight-binding-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extended tight-binding models
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-convergent-charges-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-convergent charges (SCC)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#electron-filling-and-smearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Electron filling and smearing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-charges" class="md-nav__link">
+    <span class="md-ellipsis">
+      System charges
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spin-polarized-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spin-polarized calculations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implicit-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implicit effects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hamiltonian-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hamiltonian modifications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#force-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Force calculation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Geometry optimizations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#extended-tight-binding-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extended tight-binding models
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-convergent-charges-scc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-convergent charges (SCC)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#electron-filling-and-smearing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Electron filling and smearing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-charges" class="md-nav__link">
+    <span class="md-ellipsis">
+      System charges
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spin-polarized-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Spin-polarized calculations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implicit-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implicit effects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hamiltonian-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hamiltonian modifications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#force-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Force calculation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="using-the-extended-tight-binding-hamiltonian">Using the extended tight-binding Hamiltonian</h1>
+<p>Now that you know how to perform an extended tight-binding calculation (xTB) on a
+non-periodic system, it is time to go more in-depth into the settings used for that
+calculation. After all, the results produced by the calculation should be accurate
+and reliable. Also, using the correct settings for the xTB Hamiltonian will play a
+crucial part during geometry optimizations, as this can improve convergence speed
+and results accuracy.</p>
+<!-- more -->
+
+<p>The best place to start is by having a look at the Hamiltonian block from the
+<strong>dftb_pin.hsd</strong> file generated during our previous simulation. That way, all 
+possible settings are visible. Fore more details on each entry you can check Chapter
+2.4 from the DFTB+ manual.</p>
+<p>To make the settings block more clear, the keys can be shuffled to create more
+consistent blocks, which will be explained below.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Unordered</label><label for="__tabbed_1_2">Ordered</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Hamiltonian = xTB {
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  Method = &quot;GFN1-xTB&quot;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  ShellResolvedSCC = Yes
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  SCC = Yes
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  ReadInitialCharges = No
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  InitialCharges = {}
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  SCCTolerance = 1.0000000000000001E-005
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  ConvergentSCCOnly = Yes
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  SpinPolarisation = {}
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  ElectricField = {}
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  Solver = RelativelyRobust {}
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>  Charge = 0.0000000000000000
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  MaxSCCIterations = 100
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  Dispersion = {}
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  Solvation = {}
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>  Electrostatics = GammaFunctional {}
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>  Differentiation = FiniteDiff {
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    Delta = 1.2207031250000000E-004
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>  }
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>  ForceEvaluation = &quot;Traditional&quot;
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>  Mixer = Broyden {
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    MixingParameter = 0.20000000000000001
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    InverseJacobiWeight = 1.0000000000000000E-002
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    MinimalWeight = 1.0000000000000000
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    MaximalWeight = 100000.00000000000
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    WeightFactor = 1.0000000000000000E-002
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>  }
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>  Filling = Fermi {
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    Temperature = 9.5004460357391702E-004
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>  }
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>}
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Hamiltonian = xTB {
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  Method = &quot;GFN1-xTB&quot;
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  SCC = Yes
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  SCCTolerance = 1.0000000000000001E-005
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  MaxSCCIterations = 100
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  ShellResolvedSCC = Yes
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  ConvergentSCCOnly = Yes
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  Solver = RelativelyRobust {}
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  Mixer = Broyden {
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    MixingParameter = 0.20000000000000001
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    InverseJacobiWeight = 1.0000000000000000E-002
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    MinimalWeight = 1.0000000000000000
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    MaximalWeight = 100000.00000000000
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    WeightFactor = 1.0000000000000000E-002
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>  }
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>  Filling = Fermi {
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    Temperature = 9.5004460357391702E-004
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>  }
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>  Charge = 0.0000000000000000
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>  InitialCharges = {}
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>  ReadInitialCharges = No
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>  SpinPolarisation = {}
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>  ElectricField = {}
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>  Solvation = {}
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>  Dispersion = {}
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>  Electrostatics = GammaFunctional {}
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>  ForceEvaluation = &quot;Traditional&quot;
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>  Differentiation = FiniteDiff {
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    Delta = 1.2207031250000000E-004
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>  }
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>}
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="extended-tight-binding-models">Extended tight-binding models</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Method = &quot;GFN1-xTB&quot;
+</span></code></pre></div>
+<p>The first tag, <code>Method</code>, is used to specify the extended tight-binding method used 
+for the calculations. Currently, DFTB+ supports three models:</p>
+<ul>
+<li><a href="https://pubs.acs.org/doi/10.1021/acs.jctc.7b00118">GFN1-xTB</a></li>
+<li><a href="https://pubs.rsc.org/en/content/articlelanding/2017/sc/c7sc00601b">IPEA-xTB</a></li>
+<li><a href="https://pubs.acs.org/doi/10.1021/acs.jctc.8b01176">GFN2-xTB</a></li>
+</ul>
+<p>Much like DFT functionals, which one is best depends on the system studied and on the
+chemical species involved. GFN1-xTB is the first extended tight-binding model 
+proposed by Grimme et al. and covers parameters for all atomic species with Z ≤ 86.
+IPEA-xTB is a reparameterization of GFN1-xTB aimed at predicting better ionization
+potentials. To do so, it expands the basis set of some elements, while keeping most
+identical to GFN1-xTB. GFN2-xTB is the newest model available, featuring better
+descriptions for halogens and hydrogen, while also using D4 dispersion corrections as
+opposed to the D3 corrections used in GFN1-xTB and IPEA-xTB. The advantages of using 
+GFN2-xTB over GFN1-xTB depend on the system, but it is generally observed that
+GFN2-xTB has more convergence problems for bad geometries compared to its predecessor.
+The table below contains information about the basis sets used for each atomic 
+species:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">Element</th>
+<th>GFN1-xTB</th>
+<th>IPEA-xTB</th>
+<th>GFN2-xTB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">H</td>
+<td>1s, 2s</td>
+<td>1s, 2s</td>
+<td>1s</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">He</td>
+<td>1s</td>
+<td>1s</td>
+<td>1s, 2p</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">Li, Be</td>
+<td>2s, 2p</td>
+<td>2s, 2p</td>
+<td>2s, 2p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">B-F</td>
+<td>2s, 2p</td>
+<td>2s, 2p, 3s</td>
+<td>2s, 2p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Ne</td>
+<td>2s, 2p, 3d</td>
+<td>2s, 2p, 3d</td>
+<td>2s, 2p, 3d</td>
+</tr>
+<tr>
+<td style="text-align: center;">3-5</td>
+<td style="text-align: center;">Group 1</td>
+<td>ns, nd</td>
+<td>ns, nd</td>
+<td>ns, nd</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Group 2</td>
+<td>ns, np, (n-1)d</td>
+<td>ns, np, (n-1)d</td>
+<td>ns, np, (n-1)d</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Na*</td>
+<td>3s, 3p</td>
+<td>2s, 2p</td>
+<td>3s, 3p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Mg*</td>
+<td>3s, 3p</td>
+<td>2s, 2p</td>
+<td>3s, 3p, 3d</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Groups 3-11</td>
+<td>(n-1)d, ns, np</td>
+<td>(n-1)d, ns, np</td>
+<td>(n-1)d, ns, np</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Group 12</td>
+<td>ns, np</td>
+<td>ns, np</td>
+<td>ns, np</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Groups 13-17</td>
+<td>ns, np, nd</td>
+<td>ns, np, nd</td>
+<td>ns, np, nd</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Noble gases</td>
+<td>ns, np, nd</td>
+<td>ns, np, nd</td>
+<td>ns, np, nd</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">Cs*</td>
+<td>5s, 5p</td>
+<td>5s, 5p</td>
+<td>6s, 6p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Ba*</td>
+<td>5s, 5p, 4d</td>
+<td>5s, 5p, 4d</td>
+<td>6s, 6p, 5d</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Lanthanides</td>
+<td>5d, 6s, 6p</td>
+<td>5d, 6s, 6p</td>
+<td>5d, 6s, 6p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Groups 3-11</td>
+<td>5d, 6s, 6p</td>
+<td>5d, 6s, 6p</td>
+<td>5d, 6s, 6p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Hg</td>
+<td>6s, 6p</td>
+<td>6s, 6p</td>
+<td>6s, 6p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Tl-Bi</td>
+<td>6s, 6p</td>
+<td>6s, 6p</td>
+<td>6s, 6p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Po</td>
+<td>6s, 6p, 5d</td>
+<td>6s, 6p, 5d</td>
+<td>6s, 6p</td>
+</tr>
+<tr>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">At, Rn</td>
+<td>6s, 6p, 5d</td>
+<td>6s, 6p, 5d</td>
+<td>6s, 6p, 5d</td>
+</tr>
+</tbody>
+</table>
+<p>The elements that have an asterisk use incorrect basis sets in some of the three 
+models. These are known bugs that were part of the original parameterizations and 
+thus require significant changes to the models to correct. As such, they will remain
+unchanged.</p>
+<h2 id="self-convergent-charges-scc">Self-convergent charges (SCC)</h2>
+<p>The most important block in the <code>Hemiltonian</code> block is the SCC part, which directly
+impacts the performance and accuracy of the calculations.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>SCC = Yes
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>SCCTolerance = 1.0000000000000001E-005
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>MaxSCCIterations = 100
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>ShellResolvedSCC = Yes
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>ConvergentSCCOnly = Yes
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Solver = RelativelyRobust {}
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>Mixer = Broyden {
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  MixingParameter = 0.20000000000000001
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  InverseJacobiWeight = 1.0000000000000000E-002
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  MinimalWeight = 1.0000000000000000
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>  MaximalWeight = 100000.00000000000
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>  WeightFactor = 1.0000000000000000E-002
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>}
+</span></code></pre></div>
+<p>The first tag, <code>SCC</code>, enables the self-convergent charge procedure during the
+calculations. Without it, the calculation would use the charge distribution of neutral
+atoms, which for most systems are not representative. This setting is enabled by 
+default and should only be disabled if you know the neutral atoms provide a decent
+description. If enabled, the SCC procedure has two stop conditions:</p>
+<ul>
+<li>When the change in charges from cycle to cycle is less than the <code>SCCTolerance</code>;</li>
+<li>When <code>MaxSCCIterations</code> cycles have been performed.</li>
+</ul>
+<p>Next, the tag <code>ShellResolvedSCC</code> determines if all distinct Hubbard U values for the 
+different atomic angular momenta shells are used. However, this does not seem to
+have an impact on xTB calculations. The tag <code>ConvergentSCCOnly</code> indicates that forces 
+and other properties are only computed after the SCC procedure converges, not after
+each cycle.</p>
+<p>The last two tags in this section, <code>Solver</code> and <code>Mixer</code>, affect the charge calculation
+procedure. <code>Solver</code> represents the eigensolver used by DFTB+, which is set to
+<code>RelativelyRobust</code> by default. Alternatives to this are <code>DivideAndConqer</code> (which 
+requires twice the memory of the other solvers) and <code>QR</code> (which is based on QR 
+decomposition). Depending on how the code is compiled, more solvers can be available,
+such as <code>MAGAM</code> (GPU solver), <code>ELPA</code> (efficient and GPU), <code>OMM</code>, <code>PEXSI</code>, or <code>NTPoly</code>.
+These have to be added manually at compile-time and have their own advantages and 
+disadvantages, which should be assessed before usage. </p>
+<p>On the other hand, <code>Mixer</code> determines that way past solutions from the SCC procedure
+are "mixed" to create a new solution. You may be tempted to think that during the 
+self-convergence procedure, the charges (or electron density for SCF) computed for
+one cycle are reused as the starting point of the next cycle. While this can be 
+accomplished by using the <code>Simple</code> mixer and setting the <code>MixingParameter</code> to 1.0, 
+most quantum calculation software use complex methods to determine the best starting
+point for the next cycle. Both DFTB+ and VASP use <code>Broyden</code> mixing by default.
+Alternatives to this, which require less memory, are <code>Anderson</code> and <code>DIIS</code>. I never
+used them myself, but it can be a good idea to try them as well to see if it improves
+convergence and performance.</p>
+<h2 id="electron-filling-and-smearing">Electron filling and smearing</h2>
+<p>The <code>Filing</code> block specifies the partial occupation method and electron smearing 
+used in the calculations. Currently, two methods are available: <code>Fermi</code> and 
+<code>MethfesselPaxton</code>. Both methods take as argument <code>Temperature</code>, which controls the
+smearing in the system much like <code>SIGMA</code> does in VASP, with the difference that 
+DFTB+ uses Hartree as default units. By default, DFTB+ uses a smearing of 300 K, which
+can be considered low enough for some applications. Nevertheless, according to
+<a href="https://doi.org/10.1016/j.mtcomm.2020.101595">Basiuk et al.</a>, if HOMO-LUMO gaps
+or other electronic properties are of interest, the smearing can be lowered to 30 K 
+for more accurate results.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">DFTB+ default</label><label for="__tabbed_2_2">VASP default</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Filling = Fermi {
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  Temperature = 9.5004460357391702E-004
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>}
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Filling = MethfesselPaxton {
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  Order = 1
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  Temperature = 7.3498586E-003 
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>}
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>Which of the two fractional occupation methods produces the best results depends on
+the system studied. DFTB+ defaults to <code>Fermi</code> filling with 300 K smearing, while 
+VASP defaults to 1st order <code>MethfesselPaxton</code> filling with 0.2 eV (2321 K) smearing.
+Nevertheless, the latter can be inaccurate for insulators due to unphysical partial
+occupancies. </p>
+<h2 id="system-charges">System charges</h2>
+<p>This part of the input controls the charges inside the system. The <code>Charge</code> property
+sets the system charge, which is important when ionic systems are (e.g. acetate, 
+chloride, etc.). For neutral systems, it should be left unchanged. For ionic system,
+this should be paired with the following tag, <code>InitialCharges</code>, which assigns the
+correct charges to the respective atoms.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Charge = 0.0000000000000000
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>InitialCharges = {}
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>ReadInitialCharges = No
+</span></code></pre></div>
+<p>The following tag, <code>ReadInitialCharges</code>, allows for previously computed results to
+be read, which provides the basis of the restart system in DFTB+. As mentioned 
+previously, simulations create a <strong>charges.bin</strong> file that stores information about
+the charges computed during the simulation. Loading these charges at start-time
+would result in the simulation continuing from those charges, which is effectively
+a restart.</p>
+<h2 id="spin-polarized-calculations">Spin-polarized calculations</h2>
+<p>While this will be explore in depth in another tutorial, the <code>SpinPolarisation</code> tag
+enables spin-polarised calculations. By default no value is assigned to it, forcing
+DFTB+ to ignore spin polarisation. By changing it to <code>Colinear</code> or <code>NonColinear</code>, 
+the user can introduce polarisation in the system, which might be necessary to 
+accurately model some species (e.g. manganese). </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>SpinPolarisation = {}
+</span></code></pre></div>
+<h2 id="implicit-effects">Implicit effects</h2>
+<p>As implicit effects, one can introduce an electric field or a solvent in the 
+simulation, altering the behavior of the system. For zwitterionic systems the
+introduction of solvation is recommended as it improves the convergence of the SCC
+cycle. I am not currently interested in simulations with either properties, so 
+unfortunately I cannot provide more information than what is already stated in the 
+DFTB+ manual.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ElectricField = {}
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Solvation = {}
+</span></code></pre></div>
+<h2 id="hamiltonian-modifications">Hamiltonian modifications</h2>
+<p>This part of the settings provides the ability to alter the Hamiltonian used in
+extended tight-binding, but in practice has little utility. While not specifically
+stated anywhere, the default dispersion schemes used in GFN1-xTB, IPEA-xTB, and 
+GFN2-xTB are already part of the base parameterization, and thus does not require
+manual additions using the <code>Dispersion</code> tag. Meanwhile, the <code>Electrostatics</code> tag
+should only be changed from <code>GammaFunctional</code> to <code>Poisson</code> during transport
+calculations.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Dispersion = {}
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Electrostatics = GammaFunctional {}
+</span></code></pre></div>
+<h2 id="force-calculation">Force calculation</h2>
+<p>The last part covers how the forces are being calculated during the simulation. 
+<code>ForceEvaluation</code> can be performed in three ways: <code>traditional</code>, <code>dynamics</code>, and 
+<code>dynamicsT0</code>. The first one is the default version used to calculate forces in DFTB, 
+while the other two are meant to be used for non-converged charges. In each case, 
+the differentiation can be performed using either finite difference (<code>FiniteDiff</code>), 
+or using <code>Richardson</code> extrapolation, which is the most accurate method to determine 
+forces.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>ForceEvaluation = &quot;Traditional&quot;
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Differentiation = FiniteDiff {
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  Delta = 1.2207031250000000E-004
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>}
+</span></code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
