@@ -17,6 +17,7 @@ nav:
     - DFTB+:
       - Single-point calculations using xTB: dftbp/single-point.md
       - Understanding the xTB Hamiltonian: dftbp/xtb-hamiltonian.md
+      - Geometry optimizations: dftbp/geometry-optimization.md
   - Blog: blog/index.md
 
 markdown_extensions:
