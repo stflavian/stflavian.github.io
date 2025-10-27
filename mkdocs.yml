@@ -1,6 +1,17 @@
 site_name: My Docs
+copyright: "Copyright &copy; 2025 Flavian Stavarache <br /> 
+            <span class=\"md-copyright\" style=\"margin:0;\">Website code under</span> 
+            <a href=\"https://mit-license.org/\">MIT License</a>
+            <span class=\"md-copyright\" style=\"margin:0;\">&</span> 
+            <span class=\"md-copyright\" style=\"margin:0;\">Website content under</span> 
+            <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\">CC-BY-SA 4.0</a>"
+
+repo_url: https://github.com/stflavian/stflavian.github.io
+repo_name: stflavian.github.io
 
 theme:
+  icon: 
+    logo: simple/moleculer
   name: material
   features:
     - content.code.copy
@@ -13,7 +24,9 @@ plugins:
   - search
 
 nav:
+  - Home: index.md
   - Tutorials:
+    - Tutorials: tutorials.md
     - DFTB+:
       - Single-point calculations using xTB: dftbp/single-point.md
       - Understanding the xTB Hamiltonian: dftbp/xtb-hamiltonian.md
@@ -30,3 +43,17 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin 
+      link: https://nl.linkedin.com/in/flavian-stavarache
+    - icon: fontawesome/brands/orcid
+      link: https://orcid.org/0009-0006-9934-6301
+    - icon: fontawesome/brands/github
+      link: https://github.com/stflavian
+    - icon: fontawesome/solid/envelope 
+      link: mailto:FlavianStavarache@outlook.com
+
+extra_css:
+  - stylesheets/extra.css

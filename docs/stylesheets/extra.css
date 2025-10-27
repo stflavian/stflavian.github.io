@@ -1,0 +1,110 @@
+/* ------------------------------ Regular Font ----------------------------------- */
+
+@font-face {
+  font-family: 'Aurel';
+  src: url('/assets/fonts/sans-woff2/IBMPlexSans-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aurel';
+  src: url('/assets/fonts/sans-woff2/IBMPlexSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aurel';
+  src: url('/assets/fonts/sans-woff2/IBMPlexSans-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aurel';
+  src: url('/assets/fonts/sans-woff2/IBMPlexSans-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aurel';
+  src: url('/assets/fonts/sans-woff2/IBMPlexSans-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ------------------------- Regular Font (legacy) ------------------------------ */
+
+@font-face {
+  font-family: 'Aurel';
+  src: url('/assets/fonts/sans-ttf/IBMPlexSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------- Mono Font ----------------------------------- */
+
+@font-face {
+  font-family: 'Marcel';
+  src: url('/assets/fonts/mono-woff2/JetBrainsMono-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marcel';
+  src: url('/assets/fonts/mono-woff2/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marcel';
+  src: url('/assets/fonts/mono-woff2/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marcel';
+  src: url('/assets/fonts/mono-woff2/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Marcel';
+  src: url('/assets/fonts/mono-woff2/JetBrainsMono-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---------------------------- Mono Font (legacy) ------------------------------- */
+
+@font-face {
+  font-family: 'Marcel';
+  src: url('/assets/fonts/mono-ttf/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------------------- */
+
+:root {
+  --md-text-font: 'Aurel'; 
+  --md-code-font: 'Marcel';
+}
