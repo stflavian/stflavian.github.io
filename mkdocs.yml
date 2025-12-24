@@ -10,9 +10,13 @@ repo_url: https://github.com/stflavian/stflavian.github.io
 repo_name: stflavian.github.io
 
 theme:
-  icon: 
+  icon:
     logo: simple/moleculer
   name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: indigo
   features:
     - content.code.copy
     - content.code.annotate
@@ -25,6 +29,7 @@ plugins:
 
 nav:
   - Home: index.md
+  - Resume: resume.md
   - Tutorials:
     - Tutorials: tutorials.md
     - DFTB+:
@@ -43,6 +48,11 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
 
 extra:
   social:
