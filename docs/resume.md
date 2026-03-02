@@ -1,7 +1,6 @@
 # Résumé 
 
 **Location:** Eindhoven, The Netherlands  
-**Phone:** +40 756 717 680  
 **Email:** [FlavianStavarache@outlook.com](mailto:FlavianStavarache@outlook.com)  
 
 ---  
